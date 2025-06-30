@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIS Shop - Inscription Vendeur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e90ff 0%, #00c48c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f5f7fa;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e90ff, #00c48c);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #00c48c;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .step-content {
+            padding: 40px;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .step-title {
+            color: #222b45;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #1e90ff, #00c48c);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            color: #222b45;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            border: 2px solid #e5e7eb;
+            background: #fff;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1e90ff;
+            background: #f5f7fa;
+            box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .step-content {
+                padding: 20px;
+            }
+        }
+
+        .commission-info {
+            background: linear-gradient(135deg, #e6f9f3, #f5f7fa);
+            border: 2px solid #00c48c;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .commission-info h3 {
+            color: #00c48c;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .commission-table {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .commission-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .commission-row:last-child {
+            border-bottom: none;
+        }
+
+        .commission-row strong {
+            color: #1f2937;
+        }
+
+        .contract-info {
+            background: linear-gradient(135deg, #e6f0fa, #f5f7fa);
+            border: 2px solid #1e90ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .contract-info h3 {
+            color: #1e90ff;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #00c48c, #1e90ff);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .download-btn:hover {
+            box-shadow: 0 10px 20px rgba(0, 196, 140, 0.2);
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 20px;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            background: #f9fafb;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            border-color: #1e90ff;
+            background: #e6f0fa;
+        }
+
+        .file-upload-label.has-file {
+            border-color: #00c48c;
+            background: #e6f9f3;
+            color: #00c48c;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f5f7fa;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e90ff, #00c48c);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            box-shadow: 0 10px 20px rgba(30, 144, 255, 0.2);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #222b45;
+            border: 2px solid #e5e7eb;
+        }
+
+        .btn-secondary:hover {
+            background: #e6f0fa;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .success-message h2 {
+            color: #00c48c;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .success-message p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .summary-card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .summary-card h4 {
+            color: #222b45;
+            margin-bottom: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .error-message {
+            background: #fff0f0;
+            border: 2px solid #ffbaba;
+            color: #dc2626;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .input-error {
+            border-color: #dc2626 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AXIS Shop</h1>
+            <p>Inscription Vendeur</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="step-content">
+            <!-- Step 1: Informations du Vendeur -->
+            <div class="step active" id="step1">
+                <div class="step-title">
+                    <div class="step-number">1</div>
+                    <h2>Informations du Vendeur</h2>
+                </div>
+                
+                <form id="vendorForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vendorName">Nom du vendeur <span class="required">*</span></label>
+                            <input type="text" id="vendorName" name="vendorName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shopName">Nom de la boutique <span class="required">*</span></label>
+                            <input type="text" id="shopName" name="shopName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Numéro de téléphone <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email professionnel <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="socialLinks">Lien vers vos pages sociales ou boutique existante</label>
+                        <input type="url" id="socialLinks" name="socialLinks" placeholder="https://...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="location">Localisation <span class="required">*</span></label>
+                            <select id="location" name="location" required>
+                                <option value="">Sélectionnez votre ville</option>
+                                <option value="Yaoundé">Yaoundé</option>
+                                <option value="Douala">Douala</option>
+                                <option value="Garoua">Garoua</option>
+                                <option value="Bamenda">Bamenda</option>
+                                <option value="Bafoussam">Bafoussam</option>
+                                <option value="Ngaoundéré">Ngaoundéré</option>
+                                <option value="Bertoua">Bertoua</option>
+                                <option value="Ebolowa">Ebolowa</option>
+                                <option value="Kribi">Kribi</option>
+                                <option value="Maroua">Maroua</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sector">Secteur d'activité <span class="required">*</span></label>
+                            <select id="sector" name="sector" required>
+                                <option value="">Sélectionnez votre secteur</option>
+                                <option value="Mode">Mode</option>
+                                <option value="Cosmétiques">Cosmétiques</option>
+                                <option value="Électronique">Électronique</option>
+                                <option value="Alimentation">Alimentation</option>
+                                <option value="Maison & Jardin">Maison & Jardin</option>
+                                <option value="Sport & Loisirs">Sport & Loisirs</option>
+                                <option value="Santé & Bien-être">Santé & Bien-être</option>
+                                <option value="Automobile">Automobile</option>
+                                <option value="Artisanat">Artisanat</option>
+                                <option value="Autres">Autres</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="errorMessage1"></div>
+
+                    <div class="button-group">
+                        <div></div>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(1)">Suivant</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2: Politique de Commission -->
+            <div class="step" id="step2">
+                <div class="step-title">
+                    <div class="step-number">2</div>
+                    <h2>Politique de Commission</h2>
+                </div>
+
+                <div class="commission-info">
+                    <h3>Grille des Commissions AXIS Shop</h3>
+                    <p>La plateforme AXIS Shop applique des commissions sur chaque vente selon la grille suivante :</p>
+                    
+                    <div class="commission-table">
+                        <div class="commission-row">
+                            <span><strong>0 - 50 000 FCFA</strong></span>
+                            <span><strong>15%</strong></span>
+                        </div>
+                        <div class="commission-row">
+                            <span><strong>50 001 - 100 000 FCFA</strong></span>
+                            <span><strong>20%</strong></span>
+                        </div>
+                        <div class="commission-row">
+                            <span><strong>100 001 - 300 000 FCFA</strong></span>
+                            <span><strong>25%</strong></span>
+                        </div>
+                        <div class="commission-row">
+                            <span><strong>300 001 - 1 000 000 FCFA</strong></span>
+                            <span><strong>30%</strong></span>
+                        </div>
+                        <div class="commission-row">
+                            <span><strong>1 000 001 FCFA et plus</strong></span>
+                            <span><strong>35%</strong></span>
+                        </div>
+                    </div>
+
+                    <p><strong>Important :</strong> Ces commissions sont prélevées automatiquement lors de chaque vente.</p>
+                    <p><strong>Contact :</strong> axis.company.org@gmail.com</p>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="acceptCommission" name="acceptCommission" required>
+                    <label for="acceptCommission">
+                        <strong>Acceptez-vous les conditions de commission ci-dessus ?</strong> <span class="required">*</span>
+                        <br><small>Vous devez accepter ces conditions pour continuer.</small>
+                    </label>
+                </div>
+
+                <div class="error-message" id="errorMessage2"></div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(2)">Précédent</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Contrat de Partenariat -->
+            <div class="step" id="step3">
+                <div class="step-title">
+                    <div class="step-number">3</div>
+                    <h2>Contrat de Partenariat</h2>
+                </div>
+
+                <div class="contract-info">
+                    <h3>Contrat de Partenariat AXIS Shop</h3>
+                    <p>Vous allez télécharger le contrat de partenariat d'AXIS Shop. Merci de le lire attentivement, le signer, puis le renvoyer via ce formulaire.</p>
+                    
+                    <a href="#" class="download-btn" onclick="downloadContract()">
+                        Télécharger le contrat
+                    </a>
+                </div>
+
+                <div class="form-group">
+                    <label for="contractFile">Téléverser le contrat signé <span class="required">*</span></label>
+                    <div class="file-upload">
+                        <input type="file" id="contractFile" name="contractFile" accept=".pdf,.jpg,.jpeg,.png" required>
+                        <label for="contractFile" class="file-upload-label" id="contractFileLabel">
+                            <div>Cliquez pour sélectionner le fichier</div>
+                            <small>Formats acceptés: PDF, JPG, PNG (max 10MB)</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="acceptContract" name="acceptContract" required>
+                    <label for="acceptContract">
+                        <strong>Je certifie avoir lu, compris et signé le contrat de partenariat AXIS Shop.</strong> <span class="required">*</span>
+                    </label>
+                </div>
+
+                <div class="error-message" id="errorMessage3"></div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(3)">Précédent</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Finaliser</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Confirmation -->
+            <div class="step" id="step4">
+                <div class="success-message">
+                    <div class="success-icon">🎉</div>
+                    <h2>Merci pour votre inscription !</h2>
+                    <p>Nous analyserons vos informations et vous contacterons dans les plus brefs délais.</p>
+                    
+                    <div class="summary-card">
+                        <h4>Résumé de votre inscription</h4>
+                        <div id="summaryContent"></div>
+                    </div>
+
+                    <div class="button-group" style="justify-content: center;">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">Nouvelle inscription</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        let formData = {};
+        let isSubmitting = false;
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Show specific step
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            // Show current step
+            document.getElementById(`step${step}`).classList.add('active');
+            currentStep = step;
+            updateProgress();
+        }
+
+        // Validate step 1
+        function validateStep1() {
+            const requiredFields = ['vendorName', 'shopName', 'phone', 'email', 'location', 'sector'];
+            let valid = true;
+            let errorMessage = '';
+
+            // Clear previous errors
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.classList.add('input-error');
+                    valid = false;
+                }
+            });
+
+            // Email validation
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email && !emailRegex.test(email)) {
+                document.getElementById('email').classList.add('input-error');
+                errorMessage = 'Veuillez entrer une adresse email valide.';
+                valid = false;
+            }
+
+            if (!valid && !errorMessage) {
+                errorMessage = 'Veuillez remplir tous les champs obligatoires.';
+            }
+
+            if (!valid) {
+                document.getElementById('errorMessage1').textContent = errorMessage;
+                document.getElementById('errorMessage1').style.display = 'block';
+            } else {
+                document.getElementById('errorMessage1').style.display = 'none';
+            }
+
+            return valid;
+        }
+
+        // Validate step 2
+        function validateStep2() {
+            const acceptCommission = document.getElementById('acceptCommission').checked;
+            
+            if (!acceptCommission) {
+                document.getElementById('errorMessage2').textContent = 'Vous devez accepter les conditions de commission pour continuer.';
+                document.getElementById('errorMessage2').style.display = 'block';
+                return false;
+            }
+
+            document.getElementById('errorMessage2').style.display = 'none';
+            return true;
+        }
+
+        // Validate step 3
+        function validateStep3() {
+            const contractFile = document.getElementById('contractFile').files[0];
+            const acceptContract = document.getElementById('acceptContract').checked;
+            let valid = true;
+            let errorMessage = '';
+
+            if (!contractFile) {
+                errorMessage = 'Veuillez télécharger le contrat signé.';
+                valid = false;
+            } else if (contractFile.size > 10 * 1024 * 1024) { // 10MB
+                errorMessage = 'Le fichier ne doit pas dépasser 10MB.';
+                valid = false;
+            }
+
+            if (!acceptContract) {
+                errorMessage = 'Vous devez certifier avoir lu et signé le contrat.';
+                valid = false;
+            }
+
+            if (!valid) {
+                document.getElementById('errorMessage3').textContent = errorMessage;
+                document.getElementById('errorMessage3').style.display = 'block';
+            } else {
+                document.getElementById('errorMessage3').style.display = 'none';
+            }
+
+            return valid;
+        }
+
+        // Store form data
+        function storeFormData() {
+            const form = document.getElementById('vendorForm');
+            const formDataObj = new FormData(form);
+            
+            for (let [key, value] of formDataObj.entries()) {
+                formData[key] = value;
+            }
+
+            // Store checkboxes
+            formData.acceptCommission = document.getElementById('acceptCommission').checked;
+            formData.acceptContract = document.getElementById('acceptContract').checked;
+            
+            // Store file info
+            const contractFile = document.getElementById('contractFile').files[0];
+            if (contractFile) {
+                formData.contractFileName = contractFile.name;
+                formData.contractFileSize = contractFile.size;
+            }
+        }
+
+        // Next step
+        async function nextStep(step) {
+            let valid = true;
+
+            if (step === 1) {
+                valid = validateStep1();
+            } else if (step === 2) {
+                valid = validateStep2();
+            } else if (step === 3) {
+                valid = validateStep3();
+            }
+
+            if (valid) {
+                storeFormData();
+
+                if (step === 3) {
+                    // Submit to backend
+                    await submitToBackend();
+                } else {
+                    showStep(step + 1);
+                }
+            }
+        }
+
+        // Submit form data to backend
+        async function submitToBackend() {
+            if (isSubmitting) return;
+            isSubmitting = true;
+
+            // Show loading
+            const btn = document.querySelector('#step3 .btn-primary');
+            const btnText = btn.textContent;
+            btn.textContent = 'Envoi...';
+            btn.disabled = true;
+
+            // Prepare data
+            const contractFile = document.getElementById('contractFile').files[0];
+            const data = {...formData};
+
+            // Send as multipart/form-data if file, else JSON
+            const formPayload = new FormData();
+            for (const key in data) {
+                formPayload.append(key, data[key]);
+            }
+            if (contractFile) {
+                formPayload.append('contractFile', contractFile);
+            }
+
+            try {
+                const res = await fetch('http://localhost:3000/api/registration', {
+                    method: 'POST',
+                    body: formPayload
+                });
+                const result = await res.json();
+                if (result.success) {
+                    showSummary();
+                    showStep(4);
+                    // Optionally show a toast or alert
+                } else {
+                    document.getElementById('errorMessage3').textContent = result.message || 'Erreur lors de l\'envoi.';
+                    document.getElementById('errorMessage3').style.display = 'block';
+                }
+            } catch (e) {
+                document.getElementById('errorMessage3').textContent = 'Erreur réseau ou serveur.';
+                document.getElementById('errorMessage3').style.display = 'block';
+            } finally {
+                btn.textContent = btnText;
+                btn.disabled = false;
+                isSubmitting = false;
+            }
+        }
+
+        // Previous step
+        function previousStep(step) {
+            showStep(step - 1);
+        }
+
+        // Show summary
+        function showSummary() {
+            const summaryContent = document.getElementById('summaryContent');
+            summaryContent.innerHTML = `
+                <div class="summary-item">
+                    <span>Nom du vendeur:</span>
+                    <span>${formData.vendorName}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Nom de la boutique:</span>
+                    <span>${formData.shopName}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Email:</span>
+                    <span>${formData.email}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Téléphone:</span>
+                    <span>${formData.phone}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Localisation:</span>
+                    <span>${formData.location}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Secteur d'activité:</span>
+                    <span>${formData.sector}</span>
+                </div>
+                <div class="summary-item">
+                    <span>Contrat signé:</span>
+                    <span>${formData.contractFileName || 'Oui'}</span>
+                </div>
+            `;
+        }
+
+        // Download contract
+        function downloadContract() {
+            // Open the PDF in a new tab for browser compatibility
+            window.open('docs/Axis_Shop_Contrat.pdf', '_blank');
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('vendorForm').reset();
+            document.getElementById('acceptCommission').checked = false;
+            document.getElementById('acceptContract').checked = false;
+            document.getElementById('contractFile').value = '';
+            document.getElementById('contractFileLabel').classList.remove('has-file');
+            document.getElementById('contractFileLabel').innerHTML = `
+                <div>Cliquez pour sélectionner le fichier</div>
+                <small>Formats acceptés: PDF, JPG, PNG (max 10MB)</small>
+            `;
+            formData = {};
+            showStep(1);
+        }
+
+        // File upload handler
+        document.getElementById('contractFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const label = document.getElementById('contractFileLabel');
+            
+            if (file) {
+                label.classList.add('has-file');
+                label.innerHTML = `
+                    <div>${file.name}</div>
+                    <small>${(file.size / 1024 / 1024).toFixed(2)} MB</small>
+                `;
+            } else {
+                label.classList.remove('has-file');
+                label.innerHTML = `
+                    <div>Cliquez pour sélectionner le fichier</div>
+                    <small>Formats acceptés: PDF, JPG, PNG (max 10MB)</small>
+                `;
+            }
+        });
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
